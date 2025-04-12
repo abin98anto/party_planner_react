@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./UserSignup.scss";
 import { axiosInstance } from "../../../config/axiosConfig";
 
@@ -14,7 +14,7 @@ const UserSignup: React.FC = () => {
     password?: string;
     confirmPassword?: string;
   }>({});
-  const dispatch = useApp
+  const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors: {
@@ -67,11 +67,14 @@ const UserSignup: React.FC = () => {
     e.preventDefault();
     if (validateForm()) {
       console.log("Form submitted", { fullName, email, password });
-
-      const response = await axiosInstance.post("/login");
+      const userData = { name: fullName, email, password };
+      const response = await axiosInstance.post("/signup", userData);
       console.log("the response", response);
 
-      resetForm();
+      if (response.data.success) {
+        resetForm();
+        navigate("/login");
+      }
     }
   };
 
