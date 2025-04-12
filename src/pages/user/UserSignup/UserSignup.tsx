@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./UserSignup.scss";
+import { axiosInstance } from "../../../config/axiosConfig";
 
 const UserSignup: React.FC = () => {
   const [fullName, setFullName] = useState("");
@@ -13,6 +14,7 @@ const UserSignup: React.FC = () => {
     password?: string;
     confirmPassword?: string;
   }>({});
+  const dispatch = useApp
 
   const validateForm = () => {
     const newErrors: {
@@ -53,18 +55,23 @@ const UserSignup: React.FC = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  const resetForm = () => {
+    setFullName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setErrors({});
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      // Proceed with signup logic (e.g., API call)
       console.log("Form submitted", { fullName, email, password });
-      // Reset form
-      setFullName("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-      setErrors({});
+
+      const response = await axiosInstance.post("/login");
+      console.log("the response", response);
+
+      resetForm();
     }
   };
 

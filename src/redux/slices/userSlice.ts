@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import IUser from "../../entities/IUser";
-import { login } from "../thunks/UserAuthServices";
+import { login, logout } from "../thunks/UserAuthServices";
 
 interface IUserState {
   loading: boolean;
