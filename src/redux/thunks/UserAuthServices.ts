@@ -23,3 +23,21 @@ export const login = createAsyncThunk(
     }
   }
 );
+
+export const logout = createAsyncThunk(
+  "user/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      const result = await axiosInstance.post("/logout");
+      const { persistor } = await import("../store");
+      persistor.purge();
+      return result.data;
+    } catch (error) {
+      console.log("error in logout thunk", error);
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data?.message);
+      }
+      return rejectWithValue("error in logout thunk");
+    }
+  }
+);
