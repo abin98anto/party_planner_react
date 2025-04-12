@@ -3,6 +3,7 @@ import UserLayout from "../components/user/UserLayout/UserLayout";
 import HomePage from "../pages/user/HomePage/HomePage";
 import NotFound from "../components/common/NotFound/NotFound";
 import UserLogin from "../pages/user/UserLogin/UserLogin";
+import UserSignup from "../pages/user/UserSignup/UserSignup";
 
 const UserRoutes = () => {
   return (
@@ -11,6 +12,7 @@ const UserRoutes = () => {
         <Route element={<UserLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<UserLogin />} />
+          <Route path="/signup" element={<UserSignup />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
