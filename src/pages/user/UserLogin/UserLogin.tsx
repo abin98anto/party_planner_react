@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./UserLogin.scss";
+import { useAppDispatch } from "../../../hooks/reduxHooks";
+import { login } from "../../../redux/thunks/UserAuthServices";
 
 const UserLogin: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -8,6 +10,8 @@ const UserLogin: React.FC = () => {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {}
   );
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors: { email?: string; password?: string } = {};
@@ -29,16 +33,21 @@ const UserLogin: React.FC = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  const resetForm = () => {
+    setEmail("");
+    setPassword("");
+    setErrors({});
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      // Proceed with login logic (e.g., API call)
-      console.log("Form submitted", { email, password });
-      // Reset form
-      setEmail("");
-      setPassword("");
-      setErrors({});
+      const response = await dispatch(login({ email, password })).unwrap();
+
+      if (response.success === true) {
+        navigate("/");
+        resetForm();
+      }
     }
   };
 

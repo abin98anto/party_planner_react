@@ -66,10 +66,8 @@ const UserSignup: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form submitted", { fullName, email, password });
       const userData = { name: fullName, email, password };
       const response = await axiosInstance.post("/signup", userData);
-      console.log("the response", response);
 
       if (response.data.success) {
         resetForm();
