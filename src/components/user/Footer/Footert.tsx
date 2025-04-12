@@ -62,7 +62,7 @@ const Footer = () => {
       </div>
 
       <div className="user-footer-copyright">
-        © 2024 SkillForge. All rights reserved.
+        © 2024 party planner. All rights reserved.
       </div>
     </footer>
   );
